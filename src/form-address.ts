@@ -22,6 +22,9 @@ export class FormAddress extends LitElement {
 
   handleSubmit(event: Event) {
     event.preventDefault()
+    if (this.streetName.length != 0) {
+      console.log(this.streetName)
+    }
   }
 
   _streetNameListener(event: CustomEvent) {
