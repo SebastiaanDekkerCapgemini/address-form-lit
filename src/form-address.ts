@@ -4,30 +4,29 @@ import { customElement, property } from 'lit/decorators.js'
 @customElement('form-address')
 export class FormAddress extends LitElement {
   @property()
-  streetName: string = 'World'
+  streetName: string = ''
 
   render() {
     return html`
-      <form id="address-form" className="row g-3" @submit=${this.handleSubmit}>
-        <label for="input-street-name"> Street address </label>
-        <input
-          placeholder="Street name"
-          id="input-street-name"
-          @input=${this.setStreetName}
-        />
-        <button type="submit">Submit Address</button>
+      <form
+        id="address-form"
+        className="row g-3"
+        @setStreetName=${this._streetNameListener}
+        @submit=${this.handleSubmit}
+      >
         <slot></slot>
+        <button type="submit">Submit Address</button>
       </form>
     `
   }
 
   handleSubmit(event: Event) {
     event.preventDefault()
-    console.log(this.streetName)
   }
 
-  setStreetName(event: Event) {
-    this.streetName = (event.target as HTMLInputElement).value
+  _streetNameListener(event: CustomEvent) {
+    const streetName = event.detail.streetName
+    if (streetName != null) this.streetName = streetName
   }
 }
 
