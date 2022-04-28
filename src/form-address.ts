@@ -1,20 +1,32 @@
 import { html, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
+import './input-street-name.js'
+import './input-feedback.js'
 
 @customElement('form-address')
 export class FormAddress extends LitElement {
-  @property()
-  streetName: string = ''
+  @property({ type: String })
+  streetName = ''
+
+  @property({ type: Boolean })
+  showInputFeedback = false
+
+  @property({ type: Boolean })
+  streetNameValid = false
 
   render() {
     return html`
       <form
         id="address-form"
-        className="row g-3"
         @setStreetName=${this._streetNameListener}
         @submit=${this.handleSubmit}
       >
-        <slot></slot>
+        <input-street-name></input-street-name>
+        <input-feedback
+          ?hidden=${!this.showInputFeedback}
+          .inputFieldName=${'street name'}
+          .inputValid=${this.streetNameValid}
+        ></input-feedback>
         <button type="submit">Submit Address</button>
       </form>
     `
@@ -22,14 +34,23 @@ export class FormAddress extends LitElement {
 
   handleSubmit(event: Event) {
     event.preventDefault()
-    if (this.streetName.length != 0) {
+    if (this.streetName.length != null) {
       console.log(this.streetName)
     }
+    this.showInputFeedback = true
+    this._validationCheck(this.streetName)
   }
 
-  _streetNameListener(event: CustomEvent) {
+  private _streetNameListener(event: CustomEvent) {
     const streetName = event.detail.streetName
     if (streetName != null) this.streetName = streetName
+    this.showInputFeedback = false
+  }
+
+  private _validationCheck(inputValue: String) {
+    inputValue === ''
+      ? (this.streetNameValid = false)
+      : (this.streetNameValid = true)
   }
 }
 
