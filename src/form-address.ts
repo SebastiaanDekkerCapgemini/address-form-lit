@@ -5,14 +5,16 @@ import './input-feedback.js'
 
 @customElement('form-address')
 export class FormAddress extends LitElement {
-  @property({ type: String })
-  streetName = ''
+  @property({ type: Object })
+  inputData = { streetName: '' }
 
   @property({ type: Boolean })
   showInputFeedback = false
 
-  @property({ type: Boolean })
-  streetNameValid = false
+  @property({ type: Object })
+  inputValidation = {
+    streetNameValid: false,
+  }
 
   render() {
     return html`
@@ -25,7 +27,7 @@ export class FormAddress extends LitElement {
         <input-feedback
           ?hidden=${!this.showInputFeedback}
           .inputFieldName=${'street name'}
-          .inputValid=${this.streetNameValid}
+          .inputValid=${this.inputValidation.streetNameValid}
         ></input-feedback>
         <button type="submit">Submit Address</button>
       </form>
@@ -34,23 +36,31 @@ export class FormAddress extends LitElement {
 
   handleSubmit(event: Event) {
     event.preventDefault()
-    if (this.streetName.length != null) {
-      console.log(this.streetName)
+    if (this.inputData.streetName.length != null) {
     }
     this.showInputFeedback = true
-    this._validationCheck(this.streetName)
+    this._validationCheck(this.inputData.streetName, 'streetNameValid')
   }
 
   private _streetNameListener(event: CustomEvent) {
     const streetName = event.detail.streetName
-    if (streetName != null) this.streetName = streetName
+    if (streetName != null) this.inputData.streetName = streetName
     this.showInputFeedback = false
   }
 
-  private _validationCheck(inputValue: String) {
-    inputValue === ''
-      ? (this.streetNameValid = false)
-      : (this.streetNameValid = true)
+  private _validationCheck(
+    inputValue: String,
+    inputValidationPropertyName: String
+  ) {
+    if (inputValue === '') {
+      this.inputValidation[
+        inputValidationPropertyName as keyof typeof this.inputValidation
+      ] = false
+    } else {
+      this.inputValidation[
+        inputValidationPropertyName as keyof typeof this.inputValidation
+      ] = true
+    }
   }
 }
 
