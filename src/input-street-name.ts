@@ -4,7 +4,7 @@ import { allowAlphanumeric } from './utilities'
 
 @customElement('input-street-name')
 export class InputStreetName extends LitElement {
-  @property()
+  @property({ type: String })
   streetName = ''
 
   render() {
