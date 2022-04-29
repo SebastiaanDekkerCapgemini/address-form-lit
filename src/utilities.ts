@@ -7,3 +7,9 @@ export function allowAlphanumeric(event: KeyboardEvent) {
   }
   return true
 }
+
+export function allowMaxCharacters(event: Event, maxCharacters: number) {
+  ;(event.target as HTMLInputElement).value = (
+    event.target as HTMLInputElement
+  ).value.slice(0, maxCharacters)
+}
