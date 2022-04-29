@@ -21,7 +21,7 @@ export class FormAddress extends LitElement {
       <form
         id="address-form"
         @setStreetName=${this._streetNameListener}
-        @submit=${this.handleSubmit}
+        @submit=${this._handleSubmit}
       >
         <input-street-name></input-street-name>
         <input-feedback
@@ -34,12 +34,28 @@ export class FormAddress extends LitElement {
     `
   }
 
-  handleSubmit(event: Event) {
+  private _handleSubmit(event: Event) {
     event.preventDefault()
-    if (this.inputData.streetName.length != null) {
-    }
+    const inputData = this.inputData
+    const inputValidation = this.inputValidation
+    let allFieldsValid: Boolean = false
+
     this.showInputFeedback = true
-    this._validationCheck(this.inputData.streetName, 'streetNameValid')
+    this._validationCheck(inputData.streetName, 'streetNameValid')
+
+    for (let key in inputValidation) {
+      // console.log(inputValidation.hasOwnProperty(key))
+      console.log(inputValidation[key as keyof typeof inputValidation])
+      if (inputValidation[key as keyof typeof inputValidation]) {
+        allFieldsValid = true
+      } else {
+        allFieldsValid = false
+      }
+    }
+
+    if (allFieldsValid) {
+      console.log('streetname:', inputData.streetName)
+    }
   }
 
   private _streetNameListener(event: CustomEvent) {
