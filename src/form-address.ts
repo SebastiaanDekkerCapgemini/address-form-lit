@@ -1,12 +1,14 @@
 import { html, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import './input-street-name.js'
+import './input-house-number.js'
+import './input-city.js'
 import './input-feedback.js'
 
 @customElement('form-address')
 export class FormAddress extends LitElement {
   @property({ type: Object })
-  inputData = { streetName: '' }
+  inputData = { streetName: '', houseNumber: '', city: '' }
 
   @property({ type: Boolean })
   showInputFeedback = false
@@ -14,6 +16,8 @@ export class FormAddress extends LitElement {
   @property({ type: Object })
   inputValidation = {
     streetNameValid: false,
+    houseNumber: false,
+    city: false,
   }
 
   render() {
@@ -21,6 +25,8 @@ export class FormAddress extends LitElement {
       <form
         id="address-form"
         @setStreetName=${this._streetNameListener}
+        @setHouseNumber=${this._houseNumberListener}
+        @setCity=${this._cityListener}
         @submit=${this._handleSubmit}
       >
         <input-street-name></input-street-name>
@@ -28,6 +34,18 @@ export class FormAddress extends LitElement {
           ?hidden=${!this.showInputFeedback}
           .inputFieldName=${'street name'}
           .inputValid=${this.inputValidation.streetNameValid}
+        ></input-feedback>
+        <input-house-number></input-house-number>
+        <input-feedback
+          ?hidden=${!this.showInputFeedback}
+          .inputFieldName=${'house number'}
+          .inputValid=${this.inputValidation.houseNumber}
+        ></input-feedback>
+        <input-city></input-city>
+        <input-feedback
+          ?hidden=${!this.showInputFeedback}
+          .inputFieldName=${'city'}
+          .inputValid=${this.inputValidation.city}
         ></input-feedback>
         <button type="submit">Submit Address</button>
       </form>
@@ -42,6 +60,8 @@ export class FormAddress extends LitElement {
 
     this.showInputFeedback = true
     this._validationCheck(inputData.streetName, 'streetNameValid')
+    this._validationCheck(inputData.houseNumber, 'houseNumber')
+    this._validationCheck(inputData.city, 'city')
 
     for (let key in inputValidation) {
       // console.log(inputValidation.hasOwnProperty(key))
@@ -55,12 +75,26 @@ export class FormAddress extends LitElement {
 
     if (allFieldsValid) {
       console.log('streetname:', inputData.streetName)
+      console.log('housenumber:', inputData.houseNumber)
+      console.log('city:', inputData.city)
     }
   }
 
   private _streetNameListener(event: CustomEvent) {
     const streetName = event.detail.streetName
     if (streetName != null) this.inputData.streetName = streetName
+    this.showInputFeedback = false
+  }
+
+  private _houseNumberListener(event: CustomEvent) {
+    const houseNumber = event.detail.houseNumber
+    if (houseNumber != null) this.inputData.houseNumber = houseNumber
+    this.showInputFeedback = false
+  }
+
+  private _cityListener(event: CustomEvent) {
+    const city = event.detail.city
+    if (city != null) this.inputData.city = city
     this.showInputFeedback = false
   }
 

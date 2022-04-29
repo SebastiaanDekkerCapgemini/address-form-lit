@@ -8,3 +8,11 @@
 4. Use LitState if necessary.
 5. Add field validation: required input, numeric / alphanumeric characters only, max input 30 characters.
 6. Add styling.
+
+## Step 2: Add mandatory fields
+
+1. Define house-number and city input components.
+2. Import components and render inside form-address component.
+3. Add field validation to house-number and city component.
+4. Add input data of house-number and city component when data is valid.
+5. Add styling.
