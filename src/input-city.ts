@@ -11,7 +11,7 @@ export class InputCity extends LitElement {
     return html`
       <label for="input-city">City</label>
       <input
-        placeholder="Street name"
+        placeholder="City name"
         id="input-city"
         maxlength="30"
         @keypress=${allowAlphanumeric}
