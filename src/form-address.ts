@@ -2,13 +2,19 @@ import { html, LitElement } from 'lit'
 import { customElement, property } from 'lit/decorators.js'
 import './input-street-name.js'
 import './input-house-number.js'
+import './input-house-number-addition.js'
 import './input-city.js'
 import './input-feedback.js'
 
 @customElement('form-address')
 export class FormAddress extends LitElement {
   @property({ type: Object })
-  inputData = { streetName: '', houseNumber: '', city: '' }
+  inputData = {
+    streetName: '',
+    houseNumber: '',
+    houseNumberAddition: '',
+    city: '',
+  }
 
   @property({ type: Boolean })
   showInputFeedback = false
@@ -26,6 +32,7 @@ export class FormAddress extends LitElement {
         id="address-form"
         @setStreetName=${this._streetNameListener}
         @setHouseNumber=${this._houseNumberListener}
+        @setHouseNumberAddition=${this._houseNumberAdditionListener}
         @setCity=${this._cityListener}
         @submit=${this._handleSubmit}
       >
@@ -41,6 +48,7 @@ export class FormAddress extends LitElement {
           .inputFieldName=${'house number'}
           .inputValid=${this.inputValidation.houseNumber}
         ></input-feedback>
+        <input-house-number-addition></input-house-number-addition>
         <input-city></input-city>
         <input-feedback
           ?hidden=${!this.showInputFeedback}
@@ -76,6 +84,7 @@ export class FormAddress extends LitElement {
     if (allFieldsValid) {
       console.log('streetname:', inputData.streetName)
       console.log('housenumber:', inputData.houseNumber)
+      console.log('housenumberaddition:', inputData.houseNumberAddition)
       console.log('city:', inputData.city)
     }
   }
@@ -89,6 +98,13 @@ export class FormAddress extends LitElement {
   private _houseNumberListener(event: CustomEvent) {
     const houseNumber = event.detail.houseNumber
     if (houseNumber != null) this.inputData.houseNumber = houseNumber
+    this.showInputFeedback = false
+  }
+
+  private _houseNumberAdditionListener(event: CustomEvent) {
+    const houseNumberAddition = event.detail.houseNumberAddition
+    if (houseNumberAddition != null)
+      this.inputData.houseNumberAddition = houseNumberAddition
     this.showInputFeedback = false
   }
 
