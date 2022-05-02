@@ -9,7 +9,7 @@ export class InputStreetName extends LitElement {
 
   render() {
     return html`
-      <label for="input-street-name"> Street address</label>
+      <label for="input-street-name">Street address</label>
       <input
         placeholder="Street name"
         id="input-street-name"
