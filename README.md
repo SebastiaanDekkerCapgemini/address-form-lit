@@ -29,6 +29,6 @@
 
 1. Define postal-code input component.
 2. Import components and render inside form-address component.
-3. Add field validation to house-number-addition and additional-information component.
-4. Add input data of house-number-addition and additional-information component when data is valid.
+3. Add specific field validation to postal-code.
+4. Add input data to log when data is valid.
 5. Add styling.
